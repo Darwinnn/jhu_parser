@@ -14,7 +14,7 @@ get "/" do |env|
 end
 
 def main
-  logging(false)
+  Kemal.config.env = "production"
   Kemal.run
 end
 

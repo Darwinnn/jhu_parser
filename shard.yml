@@ -1,11 +1,11 @@
-name: JHUParser
+name: main
 version: 0.1.0
 
 authors:
   - Darwin
 
 targets:
-  JHUParser:
+  main:
     main: src/main.cr
 
 crystal: 0.33.0

@@ -16,21 +16,26 @@ module JHU
         end
 
         def total
-            ret = {:confirmed => 0, :recovered => 0, :dead => 0}
+            ret = {:confirmed => [0, 0], :recovered => [0, 0], :dead => [0, 0]}
             data.each do |country, value|
-                ret[:confirmed] += value[:confirmed]
-                ret[:recovered] += value[:recovered]
-                ret[:dead] += value[:dead]
+                ret[:confirmed][0] += value[:confirmed][0]
+                ret[:confirmed][1] += value[:confirmed][1]
+
+                ret[:recovered][0] += value[:recovered][0]
+                ret[:recovered][1] += value[:recovered][1]
+                
+                ret[:dead][0] += value[:dead][0]
+                ret[:dead][1] += value[:dead][1]
             end
             ret
         end
 
         private def data
-            ret = Hash(String, Hash(Symbol, Int32)).new
+            ret = Hash(String, Hash(Symbol, Array(Int32))).new
 
             HTTP::Client.get(JHU_CONFIRMED_URL) do |resp|
                 parse_csv(resp.body_io).each do |k,v|
-                    ret[k] = {:confirmed => 0, :dead => 0} unless ret[k]?
+                    ret[k] = {:confirmed => [0, 0], :dead => [0,0], :recovered => [0,0]} unless ret[k]?
                     ret[k][:confirmed] = v
                 end
             end
@@ -52,9 +57,14 @@ module JHU
 
         private def parse_csv(body : IO)
             csv = CSV.new(body, headers: true)
-            ret = Hash(String, Int32).new(0)
-            while csv.next 
-                ret[csv["Country/Region"]] += csv.row.to_a.last.to_i
+            ret = Hash(String, Array(Int32)).new([] of Int32)
+            while csv.next
+                begin
+                    ret[csv["Country/Region"]][0] += csv.row.to_a.[-1].to_i
+                    ret[csv["Country/Region"]][1] += csv.row.to_a.[-2].to_i
+                rescue IndexError
+                    ret[csv["Country/Region"]] = [csv.row.to_a.[-1].to_i, csv.row.to_a.[-2].to_i]
+                end
             end
             ret
         end

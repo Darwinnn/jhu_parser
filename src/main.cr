@@ -1,34 +1,21 @@
 require "kemal"
-require "tasker"
-require "redis"
-require "./jhu_parser.cr"
+require "./cache"
 
-REDIS = Redis.new
+cache = Cache.new
 
-module Controllers
-  get "/:country" do |env|
-    env.response.content_type = "application/json"
-    country = env.params.url["country"]
-    REDIS.get(country)
-  end
-
-  get "/" do 
-    REDIS.get(:all)
-  end
-
+get "/:country" do |env|
+  env.response.content_type = "application/json"
+  cache.data[env.params.url["country"]].to_json
 end
 
+get "/" do |env|
+  env.response.content_type = "application/json"
+  cache.data.to_json
+end
 
-schedule = Tasker.instance
-schedule.every(1.minutes) {
-  jhu = JHU::Parser.new
-  REDIS.set(:total, jhu.total.to_json)
-  all = jhu.all
-  all.each do |country, value|
-      REDIS.set(country, value.to_json)
-  end
-  REDIS.set(:all, all.to_json)
-  } 
+def main
+  logging(false)
+  Kemal.run
+end
 
-logging false
-Kemal.run
+main

@@ -1,12 +1,12 @@
-name: test
+name: JHUParser
 version: 0.1.0
 
 authors:
   - Darwin
 
 targets:
-  test:
-    main: src/test.cr
+  JHUParser:
+    main: src/main.cr
 
 crystal: 0.33.0
 
@@ -15,8 +15,3 @@ license: MIT
 dependencies:
   kemal:
     github: kemalcr/kemal
-  redis:
-    github: stefanwille/crystal-redis
-    version: ~> 2.5.3
-  tasker:
-    github: spider-gazelle/tasker

@@ -3,7 +3,7 @@ As I was in self-isolation, I decided to learn [Crystal language](https://crysta
 
 So I built this parser, which takes data from the [John Hopkins University github repo](https://github.com/CSSEGISandData/COVID-19), parses the csv files and exposes a JSON API
 
-The app is deployed to Heroku, and you can access it here: https://vast-harbor-28252.herokuapp.com/
+The app is deployed to Heroku, and you can access it here: https://jhu-parser.herokuapp.com/
 
 # Build
 ```bash
@@ -12,7 +12,7 @@ shards build
 
 # Run
 ```bash
-bin/JHUParser 
+bin/main 
 ```
 
 # Usage
@@ -31,4 +31,6 @@ $ curl localhost:3000/total
 ```
 
 ### Data structure
-{"confirmed":[`today`,`yesterday`],"recovered":[`today`,`yesterday`],"dead":[`today`,`yesterday`]}
+```json
+{"confirmed":[today,yesterday],"recovered":[today,yesterday],"dead":[today,yesterday]}
+```

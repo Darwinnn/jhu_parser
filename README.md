@@ -1,6 +1,9 @@
 # What it is
 As I was in self-isolation, I decided to learn [Crystal language](https://crystal-lang.org/) 
+
 So I built this parser, which takes data from the [John Hopkins University github repo](https://github.com/CSSEGISandData/COVID-19), parses the csv files and exposes a JSON API
+
+The app is deployed to Heroku, and you can access it here: https://vast-harbor-28252.herokuapp.com/
 
 # Build
 ```bash

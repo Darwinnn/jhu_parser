@@ -4,7 +4,7 @@ class Cache
     getter data
 
     def initialize
-        @data = Hash(String, Hash(Symbol, Array(Int32))).new
+        @data = Hash(String, Hash(Symbol, Hash(Symbol, Int32))).new
         spawn do
             while true
                 p "#{Time.local.to_s} - Parsing JHU data"

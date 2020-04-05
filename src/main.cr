@@ -5,8 +5,9 @@ cache = Cache.new
 
 get "/:country" do |env|
   env.response.content_type = "application/json"
-  data = cache.data[env.params.url["country"]]?
-  halt env, status_code: 404, response: "#{env.params.url["country"]} not found" if data.nil? 
+  country = env.params.url["country"]
+  data = cache.data[country]?
+  halt env, status_code: 404, response: ({:error => "#{country} not found"}).to_json if data.nil? 
   data.to_json
 end
 

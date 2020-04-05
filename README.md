@@ -21,16 +21,24 @@ App accepts GET requests on port 3000 and support these routes:
 2. `GET /total` - return total stats
 3. `GET /:country` - return per country stats
 
-## Examples
-```bash
-$ curl localhost:3000/US
-{"confirmed":[275586,243453],"dead":[7087,5926],"recovered":[9707,9001]}
 
-$ curl localhost:3000/total
-{"confirmed":[1095917,1013157],"recovered":[225796,210263],"dead":[58787,52983]}
-```
+## Data structure
+* `total` - represents latest data
+* `diff` - increase in the last 24hrs (today-yesterday)
 
-### Data structure
 ```json
-{"confirmed":[today,yesterday],"recovered":[today,yesterday],"dead":[today,yesterday]}
+{
+    "recovered": {
+        "total": 246152,
+        "diff": 20356
+    },
+    "confirmed": {
+        "total": 1197405,
+        "diff": 101488
+    },
+    "dead": {
+        "total": 64606,
+        "diff": 5819
+    }
+}
 ```
